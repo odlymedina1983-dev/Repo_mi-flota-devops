@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitea
+  namespace: infra-core
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gitea
+  template:
+    metadata:
+      labels:
+        app: gitea
+    spec:
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: gitea
+          image: gitea/gitea:1.21-rootless
+          ports:
+            - containerPort: 3000
+              name: http
+            - containerPort: 2222
+              name: ssh
+          volumeMounts:
+            - name: gitea-data
+              mountPath: /data
+      volumes:
+        - name: gitea-data
+          persistentVolumeClaim:
+            claimName: gitea-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gitea-service
+  namespace: infra-core
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      name: http
+    - port: 2222
+      targetPort: 2222
+      name: ssh
+  selector:
+    app: gitea
+  type: ClusterIP
