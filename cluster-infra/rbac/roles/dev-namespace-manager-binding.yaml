@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  namespace: dev
+  name: dev-namespace-manager-binding
+subjects:
+- kind: User
+  name: odly-dev
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: dev-namespace-manager
+  apiGroup: rbac.authorization.k8s.io
