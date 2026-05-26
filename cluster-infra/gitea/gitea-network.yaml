@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gitea-servicio
+  namespace: dev
+spec:
+  ports:
+    - port: 3000
+      targetPort: 3000
+      name: http
+  selector:
+    app: gitea
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gitea-entrada
+  namespace: dev
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: gitea.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: gitea-servicio
+                port:
+                  number: 3000

@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-entrada
+  namespace: dev
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+  - host: mi-flota.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-servicio
+            port:
+              number: 80

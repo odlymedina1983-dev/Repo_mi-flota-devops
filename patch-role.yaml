@@ -1,0 +1,7 @@
+rules:
+- apiGroups: ["", "apps", "extensions", "batch"]
+  resources: ["*"]
+  verbs: ["*"]
+- apiGroups: ["networking.k8s.io"]
+  resources: ["ingresses"]
+  verbs: ["*"]
