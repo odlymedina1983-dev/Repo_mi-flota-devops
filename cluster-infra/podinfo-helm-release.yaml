@@ -14,11 +14,15 @@ spec:
         name: podinfo
         namespace: flux-system
   values:
+    # 🚀 CONFIGURACIÓN DE TU FORK LOCAL
+    image:
+      repository: podinfo
+      tag: omedina-custom
+      pullPolicy: IfNotPresent  # 👈 Crucial para que K3d use tu imagen importada
     replicaCount: 1
     ui:
-      color: "#34577c"
-      message: "Laboratorio GitOps - Podinfo Front"
-    # 🚀 AQUÍ ESTÁ LA LLAVE QUE DESTRABA EL LIMITRANGE:
+      color: "#1a5276"          # Un azul oscuro elegante para notar el cambio de versión
+      message: "Mi propio Fork de Podinfo - Entorno Local"
     resources:
       requests:
         cpu: "100m"
