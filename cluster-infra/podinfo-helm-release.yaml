@@ -18,3 +18,11 @@ spec:
     ui:
       color: "#34577c"
       message: "Laboratorio GitOps - Podinfo Front"
+    # 🚀 AQUÍ ESTÁ LA LLAVE QUE DESTRABA EL LIMITRANGE:
+    resources:
+      requests:
+        cpu: "100m"
+        memory: "64Mi"
+      limits:
+        cpu: "200m"
+        memory: "128Mi"
