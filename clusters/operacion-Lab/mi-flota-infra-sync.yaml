@@ -1,0 +1,13 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: mi-flota-infra
+  namespace: flux-system
+spec:
+  interval: 2m0s
+  path: ./cluster-infra
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: mi-flota-repo
