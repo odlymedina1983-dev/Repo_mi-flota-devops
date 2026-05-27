@@ -17,3 +17,4 @@ spec:
     replicaCount: 1
     ui:
       color: "#34577c"
+      message: "Laboratorio GitOps - Podinfo Front"
