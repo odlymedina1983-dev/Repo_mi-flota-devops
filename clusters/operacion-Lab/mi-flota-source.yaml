@@ -7,5 +7,5 @@ metadata:
 spec:
   interval: 1m0s
   ref:
-    branch: main
+    branch: qa
   url: https://github.com/odlymedina1983-dev/Repo_mi-flota-devops.git

@@ -2,7 +2,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: podinfo-app
-  namespace: dev
+  namespace: qa
 spec:
   interval: 1m
   chart:
@@ -21,7 +21,7 @@ spec:
       pullPolicy: IfNotPresent  # 👈 Crucial para que K3d use tu imagen importada
     replicaCount: 1
     ui:
-      color: "#1a5276"          # Un azul oscuro elegante para notar el cambio de versión
+      color: "#e67e22"          # Un azul oscuro elegante para notar el cambio de versión
       message: "Mi propio Fork de Podinfo - Entorno Local"
     resources:
       requests:
