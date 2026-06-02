@@ -5,15 +5,37 @@ metadata:
   namespace: dev
   annotations:
     ingress.kubernetes.io/ssl-redirect: "false"
+    # ✂️ Limpia los prefijos /app y /chat para que los Pods reciban peticiones limpias en su raíz (/)
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
+  ingressClassName: nginx # 👈 Validado científicamente por tu kube-system
   rules:
   - host: mi-flota.local
     http:
       paths:
-      - path: /
+      # 🌐 1. TU LANDING ACTUAL (Se queda intacto en la raíz, apuntando a tu servicio)
+      - path: /()(.*)
         pathType: Prefix
         backend:
           service:
             name: nginx-servicio
             port:
               number: 80
+
+      # 🚀 2. PASILLO PREPARADO: EL FRONTEND DE PODINFO (Accesible en mi-flota.local/app)
+      - path: /app()(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: podinfo-app
+            port:
+              number: 9898
+
+      # 💬 3. PASILLO PREPARADO: EL BACKEND DEL CHAT (Accesible en mi-flota.local/chat)
+      - path: /chat()(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: chat-app-svc
+            port:
+              number: 3000
