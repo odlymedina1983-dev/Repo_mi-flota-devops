@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chat-mongo
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chat-mongo
+  template:
+    metadata:
+      labels:
+        app: chat-mongo
+    spec:
+      containers:
+      - name: mongo
+        image: mongo:5.0
+        ports:
+        - containerPort: 27017
+          name: mongo-port
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "250m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chat-mongo-svc
+  namespace: dev
+spec:
+  ports:
+  - port: 27017
+    targetPort: 27017
+  selector:
+    app: chat-mongo

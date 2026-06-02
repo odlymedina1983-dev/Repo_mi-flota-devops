@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chat-app
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chat-app
+  template:
+    metadata:
+      labels:
+        app: chat-app
+    spec:
+      containers:
+      - name: chat-engine
+        image: chat-engine-app:latest
+        imagePullPolicy: IfNotPresent # 👈 CRUCIAL: Obliga a K3s a usar la imagen interna que importamos con K3d
+        ports:
+        - containerPort: 3000
+          name: http-port
+        - containerPort: 3001
+          name: ws-port
+        env:
+        - name: MONGO_URI
+          value: "mongodb://chat-mongo-svc:27017/chatdb"
+        - name: REDIS_HOST
+          value: "chat-redis-svc"
+        - name: REDIS_PORT
+          value: "6379"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chat-app-svc
+  namespace: dev
+spec:
+  ports:
+  - port: 3000
+    targetPort: 3000
+    name: http
+  - port: 3001
+    targetPort: 3001
+    name: websocket
+  selector:
+    app: chat-app
