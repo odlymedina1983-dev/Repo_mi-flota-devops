@@ -17,6 +17,13 @@ spec:
       - name: chat-app
         image: stefanprodan/podinfo:6.5.4
         command: ["./podinfo", "--backend-url=http://podinfo-app.dev.svc.cluster.local:9898/chitchat"]
+        resources:                       # 👈 AQUÍ AGREGAMOS LOS LÍMITES
+          requests:
+            cpu: "100m"
+            memory: "64Mi"
+          limits:
+            cpu: "200m"
+            memory: "128Mi"
         ports:
         - containerPort: 9898
           name: http
