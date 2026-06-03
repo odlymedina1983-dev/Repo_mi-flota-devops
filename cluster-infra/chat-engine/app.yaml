@@ -25,7 +25,7 @@ spec:
         - containerPort: 3001
           name: ws-port
         env:
-        - name: MONGO_URI
+        - name: MONGODB_URI
           value: "mongodb://chat-mongo-svc:27017/chatdb"
         - name: REDIS_HOST
           value: "chat-redis-svc"
