@@ -11,3 +11,4 @@ spec:
   sourceRef:
     kind: GitRepository
     name: mi-flota-repo
+  force: true

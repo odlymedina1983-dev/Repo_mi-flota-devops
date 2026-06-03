@@ -30,3 +30,5 @@ spec:
       limits:
         cpu: "200m"
         memory: "128Mi"
+    backend: "http://chat-app-svc:3000"
+    
