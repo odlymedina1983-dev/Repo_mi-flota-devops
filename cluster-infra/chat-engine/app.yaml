@@ -10,6 +10,8 @@ spec:
       app: chat-app
   template:
     metadata:
+      annotations:
+        deploy-trigger: "v1.0-refresh" # 👈 Añade esta línea para romper la caché del pod
       labels:
         app: chat-app
     spec:
