@@ -1,5 +1,12 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - podinfo-app.yaml     # Pon aquí el nombre exacto del archivo de podinfo que esté suelto
-  - chat-engine/app.yaml # ◄── AQUÍ OBLIGAMOS A FLUX A ENTRAR A LA CARPETA
+  - namespaces/                     # Levanta los namespaces primero
+  - core/                           # Levanta cuotas e Ingress Nginx
+  - chat-engine/app.yaml            # El deployment del chat con el fix de MONGODB_URI
+  - chat-engine/mongo.yaml          # Base de datos Mongo
+  - chat-engine/redis.yaml          # Caché Redis
+  - gitea/                          # Tu servidor git interno
+  - rbac/                           # Roles y permisos
+  - security/                       # Políticas de red
+  - podinfo-helm-release.yaml       # El release de Helm de podinfo
