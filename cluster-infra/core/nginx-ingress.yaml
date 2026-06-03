@@ -5,19 +5,18 @@ metadata:
   namespace: dev
   annotations:
     ingress.kubernetes.io/ssl-redirect: "false"
-    # 🔥 Forzamos a Nginx a interpretar los paths como Expresiones Regulares
     nginx.ingress.kubernetes.io/use-regex: "true"
-    # ✂️ Limpia los prefijos /app y /chat para que los Pods reciban peticiones limpias en su raíz (/)
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    # ✂️ Ahora usamos /$1 para que la captura sea directa y limpia
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
-  ingressClassName: nginx # 👈 Vinculado oficialmente al controlador en el puerto 8080
+  ingressClassName: nginx 
   rules:
   - host: mi-flota.local
     http:
       paths:
       
-      # 🚀 1. EL FRONTEND DE PODINFO (Se evalúa primero por ser específico)
-      - path: /app(/|$)(.*)
+      # 🚀 1. EL FRONTEND DE PODINFO (Regex simplificado)
+      - path: /app/?(.*)
         pathType: ImplementationSpecific
         backend:
           service:
@@ -25,8 +24,8 @@ spec:
             port:
               number: 9898
 
-      # 💬 2. EL BACKEND DEL CHAT 
-      - path: /chat(/|$)(.*)
+      # 💬 2. EL BACKEND DEL CHAT (Regex simplificado)
+      - path: /chat/?(.*)
         pathType: ImplementationSpecific
         backend:
           service:
@@ -34,8 +33,8 @@ spec:
             port:
               number: 3000
 
-      # 🌐 3. TU LANDING TRADICIONAL (Al final, actúa como fallback/raíz)
-      - path: /()()
+      # 🌐 3. LANDING TRADICIONAL
+      - path: /()(.*)
         pathType: Prefix
         backend:
           service:
