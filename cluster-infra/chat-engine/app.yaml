@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: chat-engine
-        image: chat-engine-app:latest
+        image: chat-engine-app:v1.0.0
         imagePullPolicy: IfNotPresent # 👈 CRUCIAL: Obliga a K3s a usar la imagen interna que importamos con K3d
         ports:
         - containerPort: 3000
