@@ -7,3 +7,5 @@ resources:
   - nginx-deployment.yaml
   - nginx-ingress.yaml
   - nginx-service.yaml
+  - helm-podinfo-repo.yaml
+  - podinfo-helm-release.yaml
