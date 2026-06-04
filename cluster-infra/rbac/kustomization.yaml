@@ -1,0 +1,7 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - credenciales/k8s-csr-odly-dev.yaml
+  - roles/dev-namespace-manager-binding.yaml
+  - roles/dev-namespace-manager-role.yaml
