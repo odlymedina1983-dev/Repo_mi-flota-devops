@@ -13,13 +13,17 @@ spec:
   - host: mi-flota.local
     http:
       paths:
+      
+      # 🚀 1. EL FRONTEND DE PODINFO (Apuntando al servicio activo de tu app unificada)
       - path: /app/?(.*)
         pathType: ImplementationSpecific
         backend:
           service:
-            name: podinfo-app
+            name: chat-app-svc  # 👈 CAMBIO AQUÍ: Ahora usa el servicio que sí está vivo
             port:
-              number: 9898
+              number: 3000      # 👈 El puerto donde tu app unificada escucha
+
+      # 💬 2. EL BACKEND DEL CHAT
       - path: /chat/?(.*)
         pathType: ImplementationSpecific
         backend:
@@ -27,6 +31,8 @@ spec:
             name: chat-app-svc
             port:
               number: 3000
+
+      # 🌐 3. LANDING TRADICIONAL
       - path: /()(.*)
         pathType: Prefix
         backend:
