@@ -6,7 +6,6 @@ metadata:
   annotations:
     ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/use-regex: "true"
-    # ✂️ Ahora usamos /$1 para que la captura sea directa y limpia
     nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
   ingressClassName: nginx 
@@ -14,8 +13,6 @@ spec:
   - host: mi-flota.local
     http:
       paths:
-      
-      # 🚀 1. EL FRONTEND DE PODINFO (Regex simplificado)
       - path: /app/?(.*)
         pathType: ImplementationSpecific
         backend:
@@ -23,8 +20,6 @@ spec:
             name: podinfo-app
             port:
               number: 9898
-
-      # 💬 2. EL BACKEND DEL CHAT (Regex simplificado)
       - path: /chat/?(.*)
         pathType: ImplementationSpecific
         backend:
@@ -32,8 +27,6 @@ spec:
             name: chat-app-svc
             port:
               number: 3000
-
-      # 🌐 3. LANDING TRADICIONAL
       - path: /()(.*)
         pathType: Prefix
         backend:

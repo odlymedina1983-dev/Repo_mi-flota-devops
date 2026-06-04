@@ -355,11 +355,13 @@ spec:
     port: 8080
     protocol: TCP
     targetPort: http
+    nodePort: 30080    # 👈 FIJO: Amarra permanentemente el puerto 8080 en Windows
   - appProtocol: https
     name: https
     port: 8443
     protocol: TCP
     targetPort: https
+    nodePort: 30443    # 👈 FIJO: Amarra permanentemente el puerto 8443 en Windows
   selector:
     app.kubernetes.io/component: controller
     app.kubernetes.io/instance: ingress-nginx
