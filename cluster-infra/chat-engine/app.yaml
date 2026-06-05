@@ -61,4 +61,5 @@ spec:
     targetPort: 3001
     name: websocket
   selector:
-    app: chat-app# Cambiado el: Fri Jun  5 12:17:38 EDT 2026
+    app: chat-app
+    
