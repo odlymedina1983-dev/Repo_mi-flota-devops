@@ -19,9 +19,9 @@ spec:
         pathType: ImplementationSpecific
         backend:
           service:
-            name: chat-app-svc  # 👈 CAMBIO AQUÍ: Ahora usa el servicio que sí está vivo
+            name: podinfo-app # 👈 CAMBIO AQUÍ: Ahora usa el servicio que sí está vivo
             port:
-              number: 3000      # 👈 El puerto donde tu app unificada escucha
+              number: 9898      # 👈 El puerto donde tu app unificada escucha
 
       # 💬 2. EL BACKEND DEL CHAT
       - path: /chat/?(.*)
