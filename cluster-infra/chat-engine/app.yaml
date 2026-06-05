@@ -11,7 +11,7 @@ spec:
   template:
     metadata:
       annotations:
-        deploy-trigger: "v1.0-refresh"
+        deploy-trigger: "v1.1-hybrid"
       labels:
         app: chat-app
     spec:
@@ -62,4 +62,4 @@ spec:
     name: websocket
   selector:
     app: chat-app
-    
+
