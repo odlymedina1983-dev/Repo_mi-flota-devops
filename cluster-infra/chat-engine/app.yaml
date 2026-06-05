@@ -11,18 +11,21 @@ spec:
   template:
     metadata:
       annotations:
-        deploy-trigger: "v1.1-hybrid"
+        # 🔄 Cambiamos el trigger para documentar la victoria del CSS
+        deploy-trigger: "v1.2-transparent"
       labels:
         app: chat-app
     spec:
       containers:
       - name: chat-engine
-        image: chat-engine-app:v1.1.0-cluster
-        imagePullPolicy: Never
-        # ─── FORZAMOS EL BINARIO NATIVO AQUÍ ───
+        # 🎯 1. TU NUEVO TAG TRANSPARENTE
+        image: chat-engine-app:v1.2.0-transparent
+        
+        # ⚠️ 2. CAMBIO CRUCIAL: De 'Never' a 'IfNotPresent'
+        imagePullPolicy: IfNotPresent
+        
         command: ["/usr/local/bin/node"]
         args: ["./bin/www"]
-        # ───────────────────────────────────────
         ports:
         - containerPort: 3000
           name: http-port

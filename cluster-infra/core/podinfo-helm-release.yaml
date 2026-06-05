@@ -14,14 +14,15 @@ spec:
         name: podinfo
         namespace: flux-system
   values:
-    # 🚀 CONFIGURACIÓN DE TU FORK LOCAL
+    # 🚀 CONFIGURACIÓN DE TU NUEVA IMAGEN LOCAL
     image:
       repository: podinfo
-      tag: omedina-custom
-      pullPolicy: IfNotPresent  # 👈 Crucial para que K3d use tu imagen importada
+      tag: v1.0.0-chat          # 👈 CAMBIA ESTO (Tu nuevo tag)
+      pullPolicy: IfNotPresent  # Mantiene la orden para que busque en el K3d local
+
     replicaCount: 1
     ui:
-      color: "#1a5276"          # Un azul oscuro elegante para notar el cambio de versión
+      color: "#1a5276"
       message: "Mi propio Fork de Podinfo - Entorno Local"
     resources:
       requests:
@@ -30,5 +31,7 @@ spec:
       limits:
         cpu: "200m"
         memory: "128Mi"
-    backend: "http://chat-app-svc:3000"
+    
+    # 🔗 EL ENLACE DE LA ALIANZA
+    backend: "http://chat-app-svc:3000" # 👈 Esto está PERFECTO. Apesta al DNS interno del clúster de Rohan.
     
