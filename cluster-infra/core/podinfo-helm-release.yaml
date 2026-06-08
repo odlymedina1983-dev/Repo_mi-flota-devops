@@ -33,5 +33,5 @@ spec:
         memory: "128Mi"
     
     # 🔗 EL ENLACE DE LA ALIANZA
-    backend: "http://chat-app-svc:3000" # 👈 Esto está PERFECTO. Apesta al DNS interno del clúster de Rohan.
+    backend: "http://mi-flota.local:30080/chat/" # 👈 Esto está PERFECTO. Apesta al DNS interno del clúster de Rohan.
     
