@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: nginx-entrada
-  namespace: dev
+  # ⚠️ Quitamos el hardcodeo de namespace: dev para que el Kustomize de cada entorno lo asigne dinámicamente
   annotations:
     ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/use-regex: "true"
@@ -14,16 +14,25 @@ spec:
     http:
       paths:
       
-      # 🚀 1. EL FRONTEND DE PODINFO (Apuntando al servicio activo de tu app unificada)
+      # 🚀 1. EL FRONTEND DE PODINFO
       - path: /app/?(.*)
         pathType: ImplementationSpecific
         backend:
           service:
-            name: podinfo-app # 👈 CAMBIO AQUÍ: Ahora usa el servicio que sí está vivo
+            name: podinfo-app
             port:
-              number: 9898      # 👈 El puerto donde tu app unificada escucha
+              number: 9898
 
-      # 💬 2. EL BACKEND DEL CHAT
+      # 🔌 2. EL MOTOR DE WEBSOCKETS (uWebSockets.js + Socket.IO)
+      - path: /chat/socket.io/?(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: chat-app-svc
+            port:
+              number: 3001 # 👈 Enviamos el apretón de manos directo al puerto correcto
+
+      # 💬 3. EL BACKEND DEL CHAT (Express Clásico API/HTML)
       - path: /chat/?(.*)
         pathType: ImplementationSpecific
         backend:
@@ -32,7 +41,7 @@ spec:
             port:
               number: 3000
 
-      # 🌐 3. LANDING TRADICIONAL
+      # 🌐 4. LANDING TRADICIONAL
       - path: /()(.*)
         pathType: Prefix
         backend:
