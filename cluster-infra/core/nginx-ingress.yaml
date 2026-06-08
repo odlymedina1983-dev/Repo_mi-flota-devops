@@ -2,8 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: nginx-entrada
-  # ⚠️ Se eliminó la línea "namespace: dev" para evitar el hardcodeo.
-  # De este modo, Kustomize inyectará el namespace dinámicamente en DEV, QA y PROD.
+  namespace: dev
   annotations:
     ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/use-regex: "true"
@@ -20,22 +19,11 @@ spec:
         pathType: ImplementationSpecific
         backend:
           service:
-            name: podinfo-app
+            name: podinfo-app # 👈 CAMBIO AQUÍ: Ahora usa el servicio que sí está vivo
             port:
-              number: 9898
+              number: 9898      # 👈 El puerto donde tu app unificada escucha
 
-      # 🔌 2. SOCKET.IO TRAFFIC (Captura y reescribe las llamadas dirigidas al puerto 3001)
-      # El grupo (.*) captura todo lo que viene después de socket.io/ (como ?EIO=4&transport=websocket)
-      # y lo inyecta limpiamente en el endpoint del servidor uWebSockets.
-      - path: /chat/(socket.io/?.*)
-        pathType: ImplementationSpecific
-        backend:
-          service:
-            name: chat-app-svc
-            port:
-              number: 3001
-
-      # 💬 3. EL BACKEND DEL CHAT (Express clásico para renderizado e HTTP estándar)
+      # 💬 2. EL BACKEND DEL CHAT
       - path: /chat/?(.*)
         pathType: ImplementationSpecific
         backend:
@@ -44,7 +32,7 @@ spec:
             port:
               number: 3000
 
-      # 🌐 4. LANDING TRADICIONAL
+      # 🌐 3. LANDING TRADICIONAL
       - path: /()(.*)
         pathType: Prefix
         backend:
