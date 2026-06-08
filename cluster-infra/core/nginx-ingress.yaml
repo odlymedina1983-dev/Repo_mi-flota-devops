@@ -2,7 +2,8 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: nginx-entrada
-  # ⚠️ Quitamos el hardcodeo de namespace: dev para que el Kustomize de cada entorno lo asigne dinámicamente
+  # ⚠️ Se eliminó la línea "namespace: dev" para evitar el hardcodeo.
+  # De este modo, Kustomize inyectará el namespace dinámicamente en DEV, QA y PROD.
   annotations:
     ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/use-regex: "true"
@@ -14,7 +15,7 @@ spec:
     http:
       paths:
       
-      # 🚀 1. EL FRONTEND DE PODINFO
+      # 🚀 1. EL FRONTEND DE PODINFO (Apuntando al servicio activo de tu app unificada)
       - path: /app/?(.*)
         pathType: ImplementationSpecific
         backend:
@@ -23,16 +24,18 @@ spec:
             port:
               number: 9898
 
-      # 🔌 2. EL MOTOR DE WEBSOCKETS (uWebSockets.js + Socket.IO)
-      - path: /chat/socket.io/?(.*)
+      # 🔌 2. SOCKET.IO TRAFFIC (Captura y reescribe las llamadas dirigidas al puerto 3001)
+      # El grupo (.*) captura todo lo que viene después de socket.io/ (como ?EIO=4&transport=websocket)
+      # y lo inyecta limpiamente en el endpoint del servidor uWebSockets.
+      - path: /chat/(socket.io/?.*)
         pathType: ImplementationSpecific
         backend:
           service:
             name: chat-app-svc
             port:
-              number: 3001 # 👈 Enviamos el apretón de manos directo al puerto correcto
+              number: 3001
 
-      # 💬 3. EL BACKEND DEL CHAT (Express Clásico API/HTML)
+      # 💬 3. EL BACKEND DEL CHAT (Express clásico para renderizado e HTTP estándar)
       - path: /chat/?(.*)
         pathType: ImplementationSpecific
         backend:
